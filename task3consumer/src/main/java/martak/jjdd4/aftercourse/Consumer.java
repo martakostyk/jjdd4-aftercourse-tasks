@@ -8,7 +8,7 @@ import javax.jms.*;
 
 public class Consumer implements Runnable, ExceptionListener {
 
-    private Logger LOG = LoggerFactory.getLogger(getClass());
+    private static Logger LOG = LoggerFactory.getLogger(Consumer.class);
 
     public static void main(String[] args) {
         new Consumer().run();
@@ -42,6 +42,7 @@ public class Consumer implements Runnable, ExceptionListener {
                     }
 
                     System.out.println("Message received: " + text);
+                    LOG.info("Received message: {}", text);
                 }
             }
 
@@ -50,7 +51,7 @@ public class Consumer implements Runnable, ExceptionListener {
             connection.close();
 
         } catch (JMSException e) {
-            LOG.info(e.getMessage());
+            LOG.error("Error while receiving message", e.getMessage());
         }
     }
 

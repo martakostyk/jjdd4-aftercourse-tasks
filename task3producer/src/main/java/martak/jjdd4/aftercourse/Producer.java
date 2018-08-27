@@ -1,11 +1,15 @@
 package martak.jjdd4.aftercourse;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jms.*;
 import java.util.Scanner;
 
 public class Producer {
+
+    private static Logger LOG = LoggerFactory.getLogger(Producer.class);
 
     public static void main(String[] args) throws JMSException {
 
@@ -34,12 +38,12 @@ public class Producer {
             }
 
             System.out.println("Message successfully sent.");
+            LOG.info("Message sent: {}", ((TextMessage) message).getText());
 
         }
 
         session.close();
         connection.close();
         producer.close();
-
     }
 }
