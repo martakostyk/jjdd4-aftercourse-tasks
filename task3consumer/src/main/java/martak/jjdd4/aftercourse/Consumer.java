@@ -26,7 +26,7 @@ public class Consumer implements Runnable, ExceptionListener {
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            Destination destination = session.createQueue("TEST.MESSAGES.QUEUE");
+            Destination destination = session.createTopic("TEST.MESSAGES.TOPIC");
 
             MessageConsumer consumer = session.createConsumer(destination);
 
@@ -36,11 +36,12 @@ public class Consumer implements Runnable, ExceptionListener {
                 if (message instanceof TextMessage) {
                     TextMessage textMessage = (TextMessage) message;
                     String text = textMessage.getText();
-                    System.out.println("Message received: " + text);
 
                     if (text.equals("exit")) {
                         break;
                     }
+
+                    System.out.println("Message received: " + text);
                 }
             }
 
