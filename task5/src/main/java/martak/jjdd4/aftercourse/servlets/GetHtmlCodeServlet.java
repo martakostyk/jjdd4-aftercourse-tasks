@@ -1,18 +1,19 @@
 package martak.jjdd4.aftercourse.servlets;
 
-        import org.slf4j.Logger;
-        import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.net.www.content.text.PlainTextInputStream;
 
-        import javax.servlet.ServletException;
-        import javax.servlet.annotation.WebServlet;
-        import javax.servlet.http.HttpServlet;
-        import javax.servlet.http.HttpServletRequest;
-        import javax.servlet.http.HttpServletResponse;
-        import java.io.BufferedReader;
-        import java.io.IOException;
-        import java.io.InputStreamReader;
-        import java.net.HttpURLConnection;
-        import java.net.URL;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @WebServlet(urlPatterns = "/get-html-code")
 public class GetHtmlCodeServlet extends HttpServlet {
@@ -23,6 +24,8 @@ public class GetHtmlCodeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         URL url = null;
+
+        resp.setContentType("text/plain;charset=UTF-8");
 
         try {
             url = new URL(req.getParameter("url"));
@@ -45,7 +48,7 @@ public class GetHtmlCodeServlet extends HttpServlet {
 
                 in.close();
 
-            } catch (NullPointerException e) {
+            } catch (Exception e) {
                 resp.getWriter().println("Given website does not contain html code to display");
                 LOG.info("Given website does not contain html code to display");
             }
