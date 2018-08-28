@@ -7,11 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/get-address")
-public class AddressServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/geocoding")
+public class GeocodingServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        String address = req.getParameter("address");
     }
 }
