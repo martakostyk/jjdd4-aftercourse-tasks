@@ -11,7 +11,7 @@
     <label>Bank commition [%]</label>
     <input type="number" name="commition" min="0" placeholder="Bank commition" required>
 
-    <button type="submit" name="submit">Show loan repayment</button>
+    <button type="submit" name="submit">Show credit repayment</button>
     <button type="reset" name="reset">Clear data</button>
 
 </form>
