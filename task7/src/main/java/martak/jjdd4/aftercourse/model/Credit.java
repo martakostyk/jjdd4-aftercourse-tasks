@@ -6,56 +6,30 @@ public class Credit {
 
     private BigDecimal sum;
     private int months;
-    private int margin;
-    private int commition;
+    private double bankMargin;
+    private double bankCommition;
 
-    public Credit(BigDecimal sum, int months, int margin, int commition) {
+    public Credit(BigDecimal sum, int months, double bankMargin, double bankCommition) {
         this.sum = sum;
         this.months = months;
-        this.margin = margin;
-        this.commition = commition;
+        this.bankMargin = bankMargin;
+        this.bankCommition = bankCommition;
     }
 
     public BigDecimal getSum() {
         return sum;
     }
 
-    public void setSum(BigDecimal sum) {
-        this.sum = sum;
-    }
-
     public int getMonths() {
         return months;
     }
 
-    public void setMonths(int months) {
-        this.months = months;
+    public double getBankMargin() {
+        return bankMargin;
     }
 
-    public int getMargin() {
-        return margin;
+    public double getBankCommition() {
+        return bankCommition;
     }
 
-    public void setMargin(int margin) {
-        this.margin = margin;
-    }
-
-    public int getCommition() {
-        return commition;
-    }
-
-    public void setCommition(int commition) {
-        this.commition = commition;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Credit{");
-        sb.append("sum=").append(sum);
-        sb.append(", months=").append(months);
-        sb.append(", margin=").append(margin);
-        sb.append(", commition=").append(commition);
-        sb.append('}');
-        return sb.toString();
-    }
 }

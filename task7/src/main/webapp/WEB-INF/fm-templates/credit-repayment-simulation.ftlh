@@ -5,6 +5,6 @@
         <p>credit sum: ${credit.sum}</p>
         <p>credit months: ${credit.months}</p>
         <p>credit margin: ${credit.margin}</p>
-        <p>credit commition: ${credit.commition}</p>
+        <p>credit bankCommition: ${credit.bankCommition}</p>
     </#if>
 </div>

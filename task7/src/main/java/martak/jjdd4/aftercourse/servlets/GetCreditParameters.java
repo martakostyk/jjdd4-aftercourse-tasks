@@ -2,6 +2,7 @@ package martak.jjdd4.aftercourse.servlets;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import martak.jjdd4.aftercourse.beans.RepaymantSimulation;
 import martak.jjdd4.aftercourse.freemarker.TemplateProvider;
 import martak.jjdd4.aftercourse.model.Credit;
 import org.slf4j.Logger;
@@ -18,11 +19,13 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/parameters")
+@WebServlet(urlPatterns = "/credit")
 public class GetCreditParameters extends HttpServlet {
 
     private final Logger LOG = LoggerFactory.getLogger(GetCreditParameters.class);
 
+    @Inject
+    private RepaymantSimulation repaymantSimulation;
 
     @Inject
     private TemplateProvider templateProvider;
@@ -53,14 +56,19 @@ public class GetCreditParameters extends HttpServlet {
         Map<String, Object> dataModel = new HashMap<>();
 
         if (credit != null) {
+            double installment = repaymantSimulation.calculateInstallment(credit);
             dataModel.put("credit", credit);
+            dataModel.put("installment", installment);
+            resp.getWriter().write(String.valueOf(installment));
+            LOG.info(String.valueOf(installment));
+
         }
 
-        try {
-            template.process(dataModel, resp.getWriter());
-        } catch (TemplateException e) {
-            LOG.warn("Template not found");
-        }
+//        try {
+//            template.process(dataModel, resp.getWriter());
+//        } catch (TemplateException e) {
+//            LOG.warn("Template not found");
+//        }
 
     }
 
@@ -71,13 +79,13 @@ public class GetCreditParameters extends HttpServlet {
         try {
             BigDecimal sum = new BigDecimal(req.getParameter("sum"));
             int months = Integer.valueOf(req.getParameter("months"));
-            int margin = Integer.valueOf(req.getParameter("margin"));
-            int commition = Integer.valueOf(req.getParameter("commition"));
+            double bankMargin = Double.valueOf(req.getParameter("bankMargin"));
+            double bankCommition = Double.valueOf(req.getParameter("bankCommition"));
 
-            return new Credit(sum, months, margin, commition);
+            return new Credit(sum, months, bankMargin, bankCommition);
 
         } catch (Exception e) {
-            LOG.error("Could not create credit credit object, error message: " + e.getMessage());
+            LOG.error("Could not create credit object");
         }
 
         return credit;
