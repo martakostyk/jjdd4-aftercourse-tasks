@@ -56,11 +56,10 @@ public class GetCreditParameters extends HttpServlet {
         Map<String, Object> dataModel = new HashMap<>();
 
         if (credit != null) {
-            double installment = repaymantSimulation.calculateInstallment(credit);
+            BigDecimal installment = repaymantSimulation.calculateInstallment(credit);
             dataModel.put("credit", credit);
             dataModel.put("installment", installment);
-            resp.getWriter().write(String.valueOf(installment));
-            LOG.info(String.valueOf(installment));
+            LOG.info("installment {}", installment);
 
         }
 
