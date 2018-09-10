@@ -1,33 +1,40 @@
 package martak.jjdd4.aftercourse.beans;
 
 import martak.jjdd4.aftercourse.model.Credit;
-import martak.jjdd4.aftercourse.servlets.GetCreditParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequestScoped
 public class RepaymantSimulation {
 
     private final Logger LOG = LoggerFactory.getLogger(RepaymantSimulation.class);
 
-    private static final double WIBOR_3M = 1.71;
+    public BigDecimal getSimulation(Credit credit) {
 
-    public BigDecimal calculateInstallment(Credit credit) {
+        final BigDecimal loanSum = credit.getSum()
+                .multiply(new BigDecimal((100 + credit.getBankCommition()) / 100));
+        LOG.info("loan sum {}", loanSum);
 
-        final double nominalInterest = WIBOR_3M + credit.getBankMargin();
+        final double nominalInterest = credit.getWIBOR_3M() + credit.getBankMargin();
         LOG.info("nominal interest {}", nominalInterest);
 
         final BigDecimal percentageRatio = new BigDecimal(1 + nominalInterest/1200);
         LOG.info("percentage ratio {}", percentageRatio);
 
-        final BigDecimal loanSum = new BigDecimal(credit.getSum().doubleValue() * (100 + credit.getBankCommition()) / 100);
-        LOG.info("loan sum {}", loanSum);
+        BigDecimal installment = new BigDecimal(loanSum.doubleValue()
+                * Math.pow(percentageRatio.doubleValue(), credit.getMonths())
+                * (percentageRatio.doubleValue() - 1)
+                / (Math.pow(percentageRatio.doubleValue(), credit.getMonths()) - 1))
+                .setScale(2, RoundingMode.HALF_UP);
+        LOG.info("installment {}", installment);
 
-        return new BigDecimal(loanSum.doubleValue() * Math.pow(percentageRatio.doubleValue(), credit.getMonths()) * (percentageRatio.doubleValue() -1)
-                / (Math.pow(percentageRatio.doubleValue(), credit.getMonths()) -1));
+        return installment;
 
     }
 }

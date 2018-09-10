@@ -56,18 +56,21 @@ public class GetCreditParameters extends HttpServlet {
         Map<String, Object> dataModel = new HashMap<>();
 
         if (credit != null) {
-            BigDecimal installment = repaymantSimulation.calculateInstallment(credit);
+
+            BigDecimal installment = repaymantSimulation.getSimulation(credit);
+
             dataModel.put("credit", credit);
             dataModel.put("installment", installment);
-            LOG.info("installment {}", installment);
 
+        } else {
+            resp.getWriter().write("Some of the parameteres have been incorrect. Try again.");
         }
 
-//        try {
-//            template.process(dataModel, resp.getWriter());
-//        } catch (TemplateException e) {
-//            LOG.warn("Template not found");
-//        }
+        try {
+            template.process(dataModel, resp.getWriter());
+        } catch (TemplateException e) {
+            LOG.warn("Template not found");
+        }
 
     }
 

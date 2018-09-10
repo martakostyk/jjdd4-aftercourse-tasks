@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class Credit {
 
+    private final double WIBOR_3M = 1.71;
     private BigDecimal sum;
     private int months;
     private double bankMargin;
@@ -15,6 +16,11 @@ public class Credit {
         this.bankMargin = bankMargin;
         this.bankCommition = bankCommition;
     }
+
+    public Credit() {
+    }
+
+    public double getWIBOR_3M() { return WIBOR_3M; }
 
     public BigDecimal getSum() {
         return sum;
